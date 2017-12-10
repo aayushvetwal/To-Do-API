@@ -33,7 +33,7 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db) => {
   // });
 
   //findOneAndDelete
-  db.collection('Users').findOneAndDelete({location: 'Utica'}).then((result) => {
-    console.log(result);
-  });
+  // db.collection('Users').findOneAndDelete({location: 'Utica'}).then((result) => {
+  //   console.log(result);
+  // });
 });
