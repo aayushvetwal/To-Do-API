@@ -67,7 +67,7 @@ app.delete('/todos/:id', (req, res) => {
 
 app.patch('/todos/:id', (req, res) => {
   var id = req.params.id;
-  var body = _.pick(req.body, ['title', 'completed']);
+  var body = _.pick(req.body, ['text', 'completed']);
 
   if(!ObjectID.isValid(id)) res.staus(404).send();
 
