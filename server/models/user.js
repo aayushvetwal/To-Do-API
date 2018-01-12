@@ -32,12 +32,14 @@ var UserSchema = new mongoose.Schema({
   }]
 });
 
+//instance method
 UserSchema.methods.toJSON = function(){
   var user = this;
   var userObject = user.toObject(); //converts mongoose object to regular object where only properties available on document exists
   return _.pick(userObject, ['_id', 'email']);
 }
 
+//instance method
 UserSchema.methods.generateAuthToken = function(){
   var user = this;
   var access = 'auth';
@@ -52,6 +54,29 @@ UserSchema.methods.generateAuthToken = function(){
 };
 //we used regular function instead of arrow function in the code above because arrow function doesn't bind 'this' keyword
 //Here, we need 'this' keyword to access individual document.
+
+//model method
+UserSchema.statics.findByToken = function(token){
+  var User = this;
+  var decoded;
+
+  try{
+    decoded = jwt.verify(token, '123abc');
+  } catch(e){
+    // return new Promise((resolve, reject) => {
+    //   reject();
+    // });
+    return Promise.reject();
+  }
+
+  return User.findOne({
+    _id: decoded._id,
+    'tokens.token': token,
+    'tokens.access': 'auth'
+  });
+};
+
+
 
 var User = mongoose.model('User', UserSchema);
 
